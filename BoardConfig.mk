@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2017 OpenKirin, OldDroid
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +16,13 @@
 
 LOCAL_PATH := device/honor/duk
 
-# Platform
-TARGET_BOARD_PLATFORM := hi3660
-
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := hi3660
-TARGET_NO_BOOTLOADER := true
-
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := generic
+TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_SMP := true
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
@@ -36,15 +30,75 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
-TARGET_CPU_SMP := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_HAVE_NEON := true
+ARCH_ARM_HIGH_OPTIMIZATION := true
+TARGET_USES_64_BIT_BINDER := true
+
+TARGET_BOARD_PLATFORM := hi3660
+BOARD_VENDOR_PLATFORM := hi3660
+
+# Enable CPUSETS
+ENABLE_CPUSETS := true
+
+# Enable SCHEDBOOST
+ENABLE_SCHEDBOOST := true
+
+# Audio
+BOARD_USES_ALSA_AUDIO := true
+TARGET_PROVIDES_LIBAUDIO := true
+BOARD_USES_GENERIC_AUDIO := false
+BOARD_SUPPORTS_SOUND_TRIGGER := true
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := hi3660
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
+
+# Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_hi3660.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+
+# Bootanimation
+TARGET_BOOTANIMATION_PRELOAD := true
+TARGET_BOOTANIMATION_TEXTURE_CACHE := true
+
+# Camera
+USE_DEVICE_SPECIFIC_CAMERA := true
+TARGET_SPECIFIC_CAMERA_PARAMETER_LIBRARY := libcamera_parameters_ext
+
+# Charger 
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+BACKLIGHT_PATH := /sys/class/leds/lcd_backlight0/brightness
+
+# Display
+USE_OPENGL_RENDERER := true
+TARGET_HARDWARE_3D := true
+ANDROID_ENABLE_RENDERSCRIPT := true
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+TARGET_USES_ION := true
+
+# GPS
+USE_DEVICE_SPECIFIC_GPS := true
+TARGET_NO_RPC := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x00078000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := loglevel=4 initcall_debug=n page_tracker=on androidboot.selinux=permissive
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x07b88000 --tags_offset 0x07988000
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+TARGET_KERNEL_HEADER_ARCH := arm64
+
+#TARGET_KERNEL_SOURCE := kernel/huawei/hi3660
+#TARGET_KERNEL_CONFIG := hisi_3660_defconfig
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
 
 # Partitions
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -56,13 +110,43 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 25983713280
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# TWRP
-RECOVERY_VARIANT := twrp
-TW_THEME := portrait_hdpi
+# Properties
+TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
-BOARD_SUPPRESS_SECURE_ERASE := true
-RECOVERY_SDCARD_ON_DATA := true
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TW_BRIGHTNESS_PATH := /sys/class/leds/lcd_backlight0/brightness
-TW_CUSTOM_BATTERY_PATH := /sys/class/power_supply/Battery
-TW_EXCLUDE_SUPERSU := true
+# Recovery
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.hi3660
+
+# RIL
+TARGET_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
+BOARD_RIL_CLASS := ../../../device/honor/duk/ril
+PROTOBUF_SUPPORTED := true
+TARGET_RIL_VARIANT := proprietary
+
+# Enable WEBGL
+ENABLE_WEBGL := true
+
+# Vendor
+BOARD_NEEDS_VENDORIMAGE_SYMLINK := true
+TARGET_COPY_OUT_VENDOR := system
+
+# Sepolicy
+BOARD_SEPOLICY_DIRS += \
+	device/honor/duk/sepolicy
+
+# Wifi
+TARGET_USES_64_BIT_BCMDHD	 := true
+BOARD_WLAN_DEVICE                := bcmdhd
+BOARD_WLAN_DEVICE_REV            := bcm4345
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
+WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_STA          := "/vendor/firmware/fw_bcm43455_hw.bin"
+WIFI_DRIVER_FW_PATH_AP           := "/vendor/firmware/fw_bcm43455_apsta_hw.bin"
+WIFI_DRIVER_FW_PATH_P2P          := "/vendor/firmware/fw_bcm43455_hw.bin"
+WIFI_BAND                        := 802_11_ABG
+
+# inherit from the proprietary version
+-include vendor/honor/duk/BoardConfigVendor.mk

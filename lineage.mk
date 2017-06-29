@@ -5,7 +5,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,10 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := $(call my-dir)
+$(call inherit-product, device/honor/duk/full_duk.mk)
 
-ifneq ($(filter duk,$(TARGET_DEVICE)),)
+# Boot animation
+TARGET_SCREEN_HEIGHT := 2560
+TARGET_SCREEN_WIDTH := 1440
 
-include $(call all-makefiles-under,$(LOCAL_PATH))
+PRODUCT_GMS_CLIENTID_BASE := android-huawei
 
-endif
+PRODUCT_NAME := lineage_duk
+TARGET_VENDOR := huawei

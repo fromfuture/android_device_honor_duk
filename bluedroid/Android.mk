@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2017 The LineageOS Project
+# Copyright (C) 2016 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,15 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter duk,$(TARGET_DEVICE)),)
+include $(CLEAR_VARS)
 
-include $(call all-makefiles-under,$(LOCAL_PATH))
+LOCAL_MODULE := bt_vendor.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/bluetooth
 
-endif
+LOCAL_MODULE_TAGS := eng
+
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+
+include $(BUILD_PREBUILT)
+
