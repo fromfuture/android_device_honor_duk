@@ -57,8 +57,6 @@ TARGET_NO_RADIOIMAGE := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_hi3660.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Bootanimation
@@ -72,6 +70,11 @@ TARGET_SPECIFIC_CAMERA_PARAMETER_LIBRARY := libcamera_parameters_ext
 # Charger 
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BACKLIGHT_PATH := /sys/class/leds/lcd_backlight0/brightness
+
+# CMHW
+BOARD_HARDWARE_CLASS := \
+    $(LOCAL_PATH)/cmhw \
+    hardware/cyanogen/cmhw
 
 # Display
 USE_OPENGL_RENDERER := true
@@ -93,20 +96,24 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_HEADER_ARCH := arm64
 
-#TARGET_KERNEL_SOURCE := kernel/huawei/hi3660
-#TARGET_KERNEL_CONFIG := hisi_3660_defconfig
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+TARGET_KERNEL_SOURCE := kernel/huawei/hi3660
+TARGET_KERNEL_CONFIG := merge_hi3660_defconfig
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
+
+# NFC
+TARGET_USES_NQ_NFC := true
+BOARD_NFC_CHIPSET := pn548
+NXP_CHIP_TYPE := 2
 
 # Partitions
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3758096384
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 25983713280
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 4915724288
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 56547606528
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_FLASH_BLOCK_SIZE := 131072
 
@@ -129,24 +136,20 @@ ENABLE_WEBGL := true
 BOARD_NEEDS_VENDORIMAGE_SYMLINK := true
 TARGET_COPY_OUT_VENDOR := system
 
+# Vendor Init
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_hi3660
+TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_duk.cpp
+
 # Sepolicy
 BOARD_SEPOLICY_DIRS += \
 	device/honor/duk/sepolicy
 
 # Wifi
-TARGET_USES_64_BIT_BCMDHD	 := true
-BOARD_WLAN_DEVICE                := bcmdhd
-BOARD_WLAN_DEVICE_REV            := bcm4345
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
-WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA          := "/vendor/firmware/fw_bcm43455_hw.bin"
-WIFI_DRIVER_FW_PATH_AP           := "/vendor/firmware/fw_bcm43455_apsta_hw.bin"
-WIFI_DRIVER_FW_PATH_P2P          := "/vendor/firmware/fw_bcm43455_hw.bin"
-WIFI_BAND                        := 802_11_ABG
+WPA_SUPPLICANT_VERSION          := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER 	:= NL80211
+BOARD_HOSTAPD_DRIVER 		:= NL80211
+CONFIG_DRIVER_NL80211		:= y
 
 # inherit from the proprietary version
 -include vendor/honor/duk/BoardConfigVendor.mk

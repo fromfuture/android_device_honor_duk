@@ -19,6 +19,21 @@ $(call inherit-product-if-exists, vendor/honor/duk/duk-vendor.mk)
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
+# Media configuration
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/prebuilts/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
+    $(LOCAL_PATH)/prebuilts/media_profiles.xml:system/etc/media_profiles.xml
+
+PRODUCT_COPY_FILES += \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+
+# GPS
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/clatd.conf:system/etc/clatd.conf
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
@@ -27,7 +42,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.external.xml:system/etc/permissions/android.hardware.camera.external.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.camera.manual_postprocessing.xml:system/etc/permissions/android.hardware.camera.manual_postprocessing.xml \
+    frameworks/native/data/etc/android.hardware.camera.full.xml:system/etc/permissions/android.hardware.camera.full.xml \
     frameworks/native/data/etc/android.hardware.camera.raw.xml:system/etc/permissions/android.hardware.camera.raw.xml \
     frameworks/native/data/etc/android.hardware.consumerir.xml:system/etc/permissions/android.hardware.consumerir.xml \
     frameworks/native/data/etc/android.software.midi.xml:system/etc/permissions/android.software.midi.xml \
@@ -48,7 +63,15 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.software.app_widgets.xml:system/etc/permissions/android.software.app_widgets.xml \
+    frameworks/native/data/etc/android.software.vr.xml:system/etc/permissions/android.software.vr.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
+
+# Vulkan
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:system/etc/permissions/android.hardware.vulkan.level-0.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version-1_0_3.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:system/etc/permissions/android.hardware.vulkan.level.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
@@ -70,13 +93,52 @@ PRODUCT_PACKAGES += \
     tinymix \
     tinypcminfo
 
-# Bluedroid conf
+# Fingerprint sensor
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.fingerprint.xml:system/etc/permissions/android.hardware.fingerprint.xml
+
+# Ramdisk
 PRODUCT_PACKAGES += \
-    bt_vendor.conf
+    fstab.hi3660 \
+    fstab.zram768m \
+    fstab.zram1024m \
+    fstab.zram1536m \
+    init.charger.rc \
+    init.chip.charger.rc \
+    init.chip.usb.rc \
+    init.hi3660.gps.rc \
+    init.hi3660.power.rc \
+    init.hi3660.rc \
+    init.hi3660.usb.configfs.rc \
+    init.hi3660.usb.rc \
+    ueventd.hi3660.rc
 
 # SNAP Camera
 PRODUCT_PACKAGES += \
     Snap
+
+# LIBShim
+PRODUCT_PACKAGES += \
+    libshim_gralloc \
+    libshim_stagefright
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.magic.api.version=0.1 \
+    ro.enable_boot_charger_mode=0 \
+    persist.sys.usb.config=manufacture,adb \
+    sys.usb.configfs=1 \
+    sys.usb.controller=ff100000.dwc3
+
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.hi3660
+
+# Doze
+PRODUCT_PACKAGES += \
+    HisiDoze
+
+PRODUCT_PACKAGES += \
+    libxml2
 
 # USB
 PRODUCT_PACKAGES += \
@@ -93,6 +155,10 @@ PRODUCT_PACKAGES += \
     nqnfcee_access.xml \
     nqnfcse_access.xml \
     Tag
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/libnfc-brcm.conf:system/etc/libnfc-brcm.conf \
+    $(LOCAL_PATH)/prebuilts/libnfc-nxp.conf:system/etc/libnfc-nxp.conf
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
