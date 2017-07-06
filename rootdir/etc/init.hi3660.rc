@@ -350,6 +350,8 @@ on fs
     restorecon /sys/class/leds/torch/flash_thermal_protect
 
 on post-fs
+    start thermshex
+
     chown system system /proc/uid_cputime/show_uid_stat
     chmod 0440 /proc/uid_cputime/show_uid_stat
     chown system system /proc/uid_cputime/remove_uid_range
@@ -1516,3 +1518,9 @@ service aptouch /vendor/bin/aptouch_daemon
 
 on property:thp.service_enable=1
     start aptouch
+
+service thermshex /vendor/bin/shex -u /product/etc/hwpg/sensorhub_thermald.xml -t
+    user root
+    group system
+    disabled
+    oneshot

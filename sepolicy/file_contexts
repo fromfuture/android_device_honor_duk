@@ -23,6 +23,7 @@
 /vendor/bin/mac_addr_normalization			u:object_r:mac_addr_normalization_exec:s0
 /vendor/bin/perfhub					u:object_r:perfhub_exec:s0
 /vendor/bin/secure_storage				u:object_r:secure_storage_exec:s0
+/vendor/bin/shex					u:object_r:shex_exec:s0
 /vendor/bin/thermal-daemon                              u:object_r:thermal-daemon_exec:s0
 
 /system/etc/native_packages.xml				u:object_r:teecd_data_file:s0
