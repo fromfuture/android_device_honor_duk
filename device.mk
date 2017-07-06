@@ -32,7 +32,8 @@ PRODUCT_COPY_FILES += \
 
 # GPS
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilts/clatd.conf:system/etc/clatd.conf
+    $(LOCAL_PATH)/prebuilts/clatd.conf:system/etc/clatd.conf \
+    $(LOCAL_PATH)/prebuilts/gps.conf:system/etc/gps.conf
 
 # Permissions
 PRODUCT_COPY_FILES += \

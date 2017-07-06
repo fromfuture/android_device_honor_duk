@@ -596,6 +596,7 @@ on early-boot
 
 on boot
     start cs-set
+    start gpsdaemon
 
     chown  system  system  /sys/devices/platform/fingerprint/read_image_flag
     chmod  0660  /sys/devices/platform/fingerprint/read_image_flag

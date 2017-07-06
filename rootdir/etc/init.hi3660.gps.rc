@@ -32,6 +32,10 @@ on boot
     chown root system /proc/gps/nstandby
     chmod 0664 /proc/gps/nstandby
 
+service gpsdaemon /vendor/bin/gpsdaemon
+    class late_start
+    oneshot
+
 service ipld /product/bin/inv_ipld  /data/gps/inv_ipld.prop
     class late_start
     user system
