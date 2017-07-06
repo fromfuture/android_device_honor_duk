@@ -1141,7 +1141,6 @@ on property:runtime.mmitest.isrunning=false
     write /sys/devices/platform/huawei_sensor/set_fingersense_enable 1
     write /sys/devices/platform/huawei_touch/roi_enable 1
 
-
 # Start services
 
 service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi3660 DUKE
@@ -1308,7 +1307,7 @@ service data_cleanner /vendor/bin/data_cleaner
     class core
     oneshot
 
-service hiscoutmanager /system/vendor/bin/hiscoutmanager
+service hiscoutmanager /vendor/bin/hiscoutmanager
     class late_start
     user root
     group system

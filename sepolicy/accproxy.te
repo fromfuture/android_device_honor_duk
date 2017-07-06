@@ -1,0 +1,6 @@
+# accproxy daemon
+type accproxy, domain, domain_deprecated;
+type accproxy_exec, exec_type, file_type;
+
+# Started by init
+init_daemon_domain(accproxy)
