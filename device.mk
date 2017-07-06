@@ -113,10 +113,6 @@ PRODUCT_PACKAGES += \
     init.hi3660.usb.rc \
     ueventd.hi3660.rc
 
-# SNAP Camera
-PRODUCT_PACKAGES += \
-    Snap
-
 # LIBShim
 PRODUCT_PACKAGES += \
     libshim_gralloc \
