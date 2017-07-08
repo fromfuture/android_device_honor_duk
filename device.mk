@@ -114,6 +114,9 @@ PRODUCT_PACKAGES += \
     init.hi3660.usb.rc \
     ueventd.hi3660.rc
 
+PRODUCT_PACKAGES += \
+    hw_service
+
 # LIBShim
 PRODUCT_PACKAGES += \
     libshim_gralloc \
