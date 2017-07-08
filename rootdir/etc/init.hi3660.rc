@@ -11,6 +11,8 @@ on early-init
     setprop persist.service.hdb.enable true
 
 on init
+    start hw_service
+
     # NFC
     symlink /dev/pn544 /dev/pn54x
 
@@ -29,8 +31,6 @@ on init
     mkdir /hisee_fs 0740 root root
 
     symlink /sdcard /storage/sdcard0
-
-    symlink /dev/block/platform/ff3b0000.ufs /dev/block/bootdevice
 
     write /sys/module/hisi_nve/parameters/nve /dev/block/bootdevice/by-name/nvme
     wait /dev/nve0
@@ -1142,6 +1142,11 @@ on property:runtime.mmitest.isrunning=false
     write /sys/devices/platform/huawei_touch/roi_enable 1
 
 # Start services
+
+service hw_service /sbin/hw_service
+    oneshot
+    disabled
+    seclabel u:r:recovery:s0
 
 service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi3660 DUKE
     class main
